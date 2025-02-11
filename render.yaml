@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: mytrade-backend
+    env: python
+    repo: https://github.com/sugesh2016/mytrade.git
+    branch: main
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "./start.sh"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mytrade-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: mytrade-redis
+          property: connectionString
+      - key: SECRET_KEY
+        sync: false
+    plan: free
+    autoDeploy: true
